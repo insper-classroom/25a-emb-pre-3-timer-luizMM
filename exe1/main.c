@@ -6,10 +6,14 @@ const int BTN_PIN_R = 28;
 const int LED_PIN_R = 4;
 
 volatile int flag_f_r = 0;
+volatile int piscando = 0;
 
 void btn_callback(uint gpio, uint32_t events) {
     if (events == 0x4) { // fall edge
-        flag_f_r = 1;
+        piscando = !piscando;
+        if (!piscando){
+            gpio_put(LED_PIN_R, false);
+        }
     } else if (events == 0x8) { // rise edge
     }
 }
@@ -28,8 +32,12 @@ int main() {
 
     while (true) {
 
-        if (flag_f_r) {
-            flag_f_r = 0;
+        if (piscando) {
+            flag_f_r = !flag_f_r;
+            gpio_put(LED_PIN_R, flag_f_r);
+            sleep_ms(500);
+        } else {
+            sleep_ms(500);
         }
     }
 }
