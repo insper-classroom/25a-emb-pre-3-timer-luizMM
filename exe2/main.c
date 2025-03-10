@@ -10,6 +10,8 @@ const int LED_PIN_G = 6;
 
 volatile int flag_r = 0;
 volatile int flag_g = 0;
+int piscando_r = 0;
+int piscando_g = 0;
 
 void btn_callback(uint gpio, uint32_t events) {
     if (events == 0x4) {
@@ -21,6 +23,8 @@ void btn_callback(uint gpio, uint32_t events) {
 }
 
 int main() {
+    stdio_init_all();
+
     gpio_init(LED_PIN_R);
     gpio_set_dir(LED_PIN_R, GPIO_OUT);
 
@@ -43,10 +47,32 @@ int main() {
 
         if (flag_r) {
             flag_r = 0;
+            piscando_r = !piscando_r;
+            if (!piscando_r){
+                gpio_put(LED_PIN_R, false);
+            }
         }
 
         if (flag_g) {
             flag_g = 0;
+            piscando_g = !piscando_g;
+            if (!piscando_g){
+                gpio_put(LED_PIN_G, false);
+            }
+        }
+
+        if(piscando_r){
+            gpio_put(LED_PIN_R, !gpio_get(LED_PIN_R));
+            sleep_ms(500);
+        }
+
+        if(piscando_g){
+            gpio_put(LED_PIN_G, !gpio_get(LED_PIN_G));
+            sleep_ms(250);
+        }
+
+        if (!piscando_g & !piscando_r){
+            sleep_ms(10);
         }
     }
 }
