@@ -12,8 +12,6 @@ volatile int flag_r = 0;
 volatile int flag_g = 0;
 volatile int g_timer_r = 0;
 volatile int g_timer_g = 0;
-int piscando_r = 0;
-int piscando_g = 0;
 
 repeating_timer_t timer_r;
 repeating_timer_t timer_g;
@@ -60,6 +58,9 @@ int main() {
 
     add_repeating_timer_ms(500, timer_r_callback, NULL, &timer_r);
     add_repeating_timer_ms(250, timer_g_callback, NULL, &timer_g);
+
+    int piscando_r = 0;
+    int piscando_g = 0;
 
     while (true) {
 

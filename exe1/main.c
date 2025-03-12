@@ -7,7 +7,7 @@ const int LED_PIN_R = 4;
 
 volatile int flag_update = 0;
 volatile int g_timer_0 = 0;
-int piscando = 0;
+
 repeating_timer_t timer_0;
 
 void btn_callback(uint gpio, uint32_t events) {
@@ -33,6 +33,8 @@ int main() {
     gpio_set_irq_enabled_with_callback(BTN_PIN_R, GPIO_IRQ_EDGE_FALL, true,
                                        &btn_callback);
 
+    int piscando = 0;
+    
     while (true) {
 
         if (flag_update) {
