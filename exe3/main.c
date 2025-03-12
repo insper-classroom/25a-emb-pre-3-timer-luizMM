@@ -7,7 +7,6 @@ const int LED_PIN_R = 4;
 
 volatile int flag_f_r = 0;
 volatile uint64_t press_start = 0;
-int state = 0;
 
 void btn_callback(uint gpio, uint32_t events) {
     if (events == 0x4) { // fall edge
@@ -36,6 +35,8 @@ int main() {
 
     gpio_set_irq_enabled_with_callback(
         BTN_PIN_R, GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE, true, &btn_callback);
+
+    int state = 0;
 
     while (true) {
 
